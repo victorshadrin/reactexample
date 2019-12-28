@@ -1,13 +1,22 @@
 import React, {useState} from 'react';
-import logo from './logo.svg';
+import {useRoutes, A, navigate} from 'hookrouter';
 import './App.css';
 import Button from '@material-ui/core/Button';
+import Main from "./main";
+import Edit from "./edit";
+
+
+const routes = {
+    "/": () => <Main />,
+    "/edit": () => <Edit />,
+};
 
 function App() {
     const [opt, setOpt] = useState(0);
+    const routeResult = useRoutes(routes);
 
     const doOnclick = () => {
-        console.log(opt)
+        navigate(opt === 0 ? '/edit' : "/", true);
         setOpt(opt === 0 ? 1 : 0)
     }
 
@@ -18,16 +27,7 @@ function App() {
                     test
                 </Button>
             </header>
-            <div className="body-block">
-                {opt === 0 && (
-                    <div>BY!!!</div>
-                )
-                }
-                {opt === 1 && (
-                    <div>HELLO!!</div>
-                )
-                }
-            </div>
+            {routeResult}
         </div>
     );
 }
